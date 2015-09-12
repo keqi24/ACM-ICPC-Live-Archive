@@ -22,9 +22,12 @@ class Main {
         String line;
         int caseCount = 0;
         while ((line = br.readLine()) != null) {
+            int numberOfHouses = Integer.parseInt(line);
+            if (numberOfHouses == 0 ) {
+                break;
+            }
             ++caseCount;
             System.out.println("Case " + caseCount + ":");
-            int numberOfHouses = Integer.parseInt(line);
             int[] xs = new int[numberOfHouses];
             int[] ys = new int[numberOfHouses];
             int num = 0;
@@ -35,23 +38,57 @@ class Main {
                 ++num;
             }
             token = new StringTokenizer(br.readLine());
-            Round a = new Round(Integer.parseInt(token.nextToken()), Integer.parseInt(token.nextToken()));
-            Round b = new Round(Integer.parseInt(token.nextToken()), Integer.parseInt(token.nextToken()));
+            int ax = Integer.parseInt(token.nextToken());
+            int ay = Integer.parseInt(token.nextToken());
+            int bx = Integer.parseInt(token.nextToken());
+            int by = Integer.parseInt(token.nextToken());
             int query = Integer.parseInt(token.nextToken());
+
+            int[] distanceA = new int[numberOfHouses];
+            int[] distanceB = new int[numberOfHouses];
+
+            for (int i=0; i<numberOfHouses; ++i) {
+                distanceA[i] = (ax - xs[i])*(ax - xs[i]) + (ay - ys[i])*(ay - ys[i]);
+                distanceB[i] = (bx - xs[i])*(bx - xs[i]) + (by - ys[i])*(by - ys[i]);
+            }
 
             int qNum = 0;
             while (qNum < query) {
                 token = new StringTokenizer(br.readLine());
                 int r1 = Integer.parseInt(token.nextToken());
                 int r2 = Integer.parseInt(token.nextToken());
-                a.setR(r1);
-                b.setR(r2);
-                System.out.println(solution(xs, ys, a, b));
+                int powR1 = r1 * r1;
+                int powR2 = r2 * r2;
+
+//                int left1 = ax - r1;
+//                int right1 = ax + r1;
+//                int top1 = ay + r1;
+//                int bottom1 =  ay - r1;
+//
+//                int left2 = bx - r2;
+//                int right2 = bx + r2;
+//                int top2 = by + r2;
+//                int bottom2 = by - r2;
+
+                int inSideCount = 0;
+                for (int i=0;  i<numberOfHouses; ++i) {
+                    if (distanceA[i] <= powR1) {
+                        ++inSideCount;
+                    }
+                    if (distanceB[i] <= powR2) {
+                        ++inSideCount;
+                    }
+                }
+
+                int result = numberOfHouses - inSideCount;
+                if (result > 0) {
+                    System.out.println(result);
+                } else {
+                    System.out.println(0);
+                }
                 ++qNum;
             }
-            br.readLine();
         }
-
     }
 
     public static int solution(int[] xs, int[] ys, Round a, Round b) {
