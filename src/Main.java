@@ -47,11 +47,6 @@ class Main {
             int[] distanceA = new int[numberOfHouses];
             int[] distanceB = new int[numberOfHouses];
 
-            for (int i=0; i<numberOfHouses; ++i) {
-                distanceA[i] = (ax - xs[i])*(ax - xs[i]) + (ay - ys[i])*(ay - ys[i]);
-                distanceB[i] = (bx - xs[i])*(bx - xs[i]) + (by - ys[i])*(by - ys[i]);
-            }
-
             int qNum = 0;
             while (qNum < query) {
                 token = new StringTokenizer(br.readLine());
@@ -60,23 +55,35 @@ class Main {
                 int powR1 = r1 * r1;
                 int powR2 = r2 * r2;
 
-//                int left1 = ax - r1;
-//                int right1 = ax + r1;
-//                int top1 = ay + r1;
-//                int bottom1 =  ay - r1;
-//
-//                int left2 = bx - r2;
-//                int right2 = bx + r2;
-//                int top2 = by + r2;
-//                int bottom2 = by - r2;
+                int left1 = ax - r1;
+                int right1 = ax + r1;
+                int top1 = ay + r1;
+                int bottom1 =  ay - r1;
+
+                int left2 = bx - r2;
+                int right2 = bx + r2;
+                int top2 = by + r2;
+                int bottom2 = by - r2;
 
                 int inSideCount = 0;
                 for (int i=0;  i<numberOfHouses; ++i) {
-                    if (distanceA[i] <= powR1) {
-                        ++inSideCount;
+                    int x = xs[i];
+                    int y = ys[i];
+                    if (x>=left1 && x<=right1 && y<=top1 && y>=bottom1) {
+                        if (distanceA[i] == 0) {
+                            distanceA[i] = (ax - x)*(ax - x) + (ay - y)*(ay - y);
+                        }
+                        if (distanceA[i] <= powR1) {
+                            ++inSideCount;
+                        }
                     }
-                    if (distanceB[i] <= powR2) {
-                        ++inSideCount;
+                    if (x>=left2 && x<=right2 && y<=top2 && y>=bottom2) {
+                        if (distanceB[i] == 0) {
+                            distanceB[i] = (bx - x)*(bx - x) + (by - y)*(by - y);
+                        }
+                        if (distanceB[i] <= powR2) {
+                            ++inSideCount;
+                        }
                     }
                 }
 
