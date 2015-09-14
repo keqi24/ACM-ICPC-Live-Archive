@@ -2,11 +2,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.SynchronousQueue;
 
 /**
- * Created by qux on 9/12/15.
+ * Created by qux on 9/14/15.
  */
 class Main {
+
+    private static int MAX_R = 13000;
 
     public static void main(String args[]) {
         try {
@@ -42,18 +45,18 @@ class Main {
             int by = Integer.parseInt(token.nextToken());
             int query = Integer.parseInt(token.nextToken());
 
-            int[] distanceCountA = new int[13001];
-            int[] distanceCountB = new int[13001];
+            int[] distanceCountA = new int[MAX_R + 1];
+            int[] distanceCountB = new int[MAX_R + 1];
 
             for (int i = 0; i < numberOfHouses; ++i) {
                 int x = xs[i];
                 int y = ys[i];
                 int index = (int) Math.ceil(Math.sqrt((ax - x) * (ax - x) + (ay - y) * (ay - y)));
-                if (index <= 13000) {
+                if (index <= MAX_R) {
                     distanceCountA[index] = distanceCountA[index] + 1;
                 }
                 index = (int) Math.ceil(Math.sqrt((bx - x) * (bx - x) + (by - y) * (by - y)));
-                if (index <= 13000) {
+                if (index <= MAX_R) {
                     distanceCountB[index] = distanceCountB[index] + 1;
                 }
             }
@@ -70,8 +73,10 @@ class Main {
             int[] sortedB = Arrays.copyOf(Rb, query);
             Arrays.sort(sortedB);
 
+
             HashMap<Integer, Integer> countMapA = calCount(distanceCountA, sortedA);
             HashMap<Integer, Integer> countMapB = calCount(distanceCountB, sortedB);
+
 
             for (int i = 0; i < query; ++i) {
                 int result = numberOfHouses - countMapA.get(Ra[i]) - countMapB.get(Rb[i]);
@@ -81,7 +86,6 @@ class Main {
                     System.out.println(0);
                 }
             }
-
         }
     }
 
@@ -96,8 +100,9 @@ class Main {
                 sum += distanceCount[j];
             }
             result.put(end, sum);
-            distanceStartIndex = end;
+            distanceStartIndex = end+1;
         }
         return result;
     }
+
 }

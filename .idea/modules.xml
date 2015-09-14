@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NuclearPower.iml" filepath="$PROJECT_DIR$/NuclearPower.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ACM-ICPC-Live-Archive.iml" filepath="$PROJECT_DIR$/ACM-ICPC-Live-Archive.iml" />
     </modules>
   </component>
 </project>
